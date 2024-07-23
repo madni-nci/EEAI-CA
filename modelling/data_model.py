@@ -11,27 +11,31 @@ class Data():
     def __init__(self,
                  X: np.ndarray,
                  df: pd.DataFrame) -> None:
+        
+        y = df[Config.CLASS_COLS]
+        y.reset_index(drop=True, inplace=True)
+        df.reset_index(drop=True, inplace=True)
 
-        y = df.y.to_numpy()
-        y_series = pd.Series(y)
+        self.y_train = {target:[] for target in Config.CLASS_COLS}
+        # self.X_test = {target:[] for target in Config.CLASS_COLS}
+        self.y_test = {target:[] for target in Config.CLASS_COLS}
 
-        good_y_value = y_series.value_counts()[y_series.value_counts() >= 3].index
+        data_idx = list(range(0, X.shape[0]))
 
-        if len(good_y_value)<1:
-            print("None of the class have more than 3 records: Skipping ...")
-            self.X_train = None
-            return
+        random.seed(0)
 
-        y_good = y[y_series.isin(good_y_value)]
-        X_good = X[y_series.isin(good_y_value)]
+        random.shuffle(data_idx)
 
-        new_test_size = X.shape[0] * 0.2 / X_good.shape[0]
+        split_index = int(0.8 * len(data_idx))
 
-
-        self.X_train, self.X_test, self.y_train, self.y_test= train_test_split(X_good, y_good, test_size=new_test_size, random_state=0, stratify=y_good)
-        self.y = y_good
-        self.classes = good_y_value
-        self.embeddings = X
+        self.X_train = X[data_idx[:split_index]]
+        self.X_test = X[data_idx[split_index:]]
+        self.test_df = df.iloc[data_idx[split_index:], :]
+        
+        for target in Config.CLASS_COLS:
+            self.y_train[target], self.y_test[target] = y[target][data_idx[:split_index]], y[target][data_idx[split_index:]]
+            
+        self.embeddings = X # df[Config.TICKET_SUMMARY] + ' ' + df[Config.INTERACTION_CONTENT]
 
 
     def get_type(self):

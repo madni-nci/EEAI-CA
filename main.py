@@ -29,8 +29,8 @@ def get_embeddings(df:pd.DataFrame):
 def get_data_object(X: np.ndarray, df: pd.DataFrame):
     return Data(X, df)
 
-def perform_modelling(data: Data, df: pd.DataFrame, name):
-    model_predict(data, df, name)
+def perform_modelling(data: Data, df: pd.DataFrame):
+    return model_predict(data, df)
 
 if __name__ == '__main__':
     df = load_data()
@@ -38,9 +38,12 @@ if __name__ == '__main__':
     df[Config.INTERACTION_CONTENT] = df[Config.INTERACTION_CONTENT].values.astype('U')
     df[Config.TICKET_SUMMARY] = df[Config.TICKET_SUMMARY].values.astype('U')
     grouped_df = df.groupby(Config.GROUPED)
+    accuracies = {name:[] for name, group_df in grouped_df}
     for name, group_df in grouped_df:
-        print(name)
         X, group_df = get_embeddings(group_df)
         data = get_data_object(X, group_df)
-        perform_modelling(data, group_df, name)
-
+        accuracies[name] = perform_modelling(data, group_df)
+    
+    for name, group_df in grouped_df:
+        print(f'Average Accuracy for {name} group: {accuracies[name]}%')
+    print(f'Overall Average Accuracy for all groups: {np.mean(list(accuracies.values()))}$')
