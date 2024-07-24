@@ -6,6 +6,7 @@ seed =0
 random.seed(seed)
 np.random.seed(seed)
 
+# calculate tf-idf embeddings
 def get_tfidf_embd(df:pd.DataFrame):
     from sklearn.feature_extraction.text import TfidfVectorizer
     tfidfconverter = TfidfVectorizer(max_features=2000, min_df=4, max_df=0.90)

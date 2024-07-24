@@ -40,10 +40,16 @@ if __name__ == '__main__':
     grouped_df = df.groupby(Config.GROUPED)
     accuracies = {name:[] for name, group_df in grouped_df}
     for name, group_df in grouped_df:
+        # Get TF-IDF embeddings
         X, group_df = get_embeddings(group_df)
+
+        # Get the data object
         data = get_data_object(X, group_df)
+
+        # Train, predict and calculate the accuracy
         accuracies[name] = perform_modelling(data, group_df)
     
+    # print the accuracies
     for name, group_df in grouped_df:
-        print(f'Average Accuracy for {name} group: {accuracies[name]}%')
-    print(f'Overall Average Accuracy for all groups: {np.mean(list(accuracies.values()))}$')
+        print(f'Average Accuracy for {name} group: {accuracies[name]:.2f}%')
+    print(f'Overall Average Accuracy for all groups: {np.mean(list(accuracies.values())):.2f}%')

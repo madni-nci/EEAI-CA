@@ -2,13 +2,13 @@ from model.randomforest import RandomForest
 
 
 
-def model_predict(data, df, name):
+def model_predict(data, df):
     results = []
-    print("RandomForest")
-    model = RandomForest("RandomForest", data.get_embeddings(), data.get_type())
+    model = RandomForest("RandomForest", data)
     model.train(data)
     model.predict(data.X_test)
-    model.print_results(data)
+    return model.print_results(data)
+
 
 
 def model_evaluate(model, data):

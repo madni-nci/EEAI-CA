@@ -12,14 +12,18 @@ class Data():
                  X: np.ndarray,
                  df: pd.DataFrame) -> None:
         
-        y = df[Config.CLASS_COLS]
-        y.reset_index(drop=True, inplace=True)
+        y = df[Config.CLASS_COLS] # get all target variables
+        y.reset_index(drop=True, inplace=True) # reset index to ensure that the index is continuous
         df.reset_index(drop=True, inplace=True)
 
-        self.y_train = {target:[] for target in Config.CLASS_COLS}
-        # self.X_test = {target:[] for target in Config.CLASS_COLS}
+        # create a dictionary to store the target variables for training
+        self.y_train = {target:[] for target in Config.CLASS_COLS} 
+
+         # create a dictionary to store the target variables for testing
         self.y_test = {target:[] for target in Config.CLASS_COLS}
 
+        # train test split started
+        # ***********************
         data_idx = list(range(0, X.shape[0]))
 
         random.seed(0)
@@ -31,13 +35,17 @@ class Data():
         self.X_train = X[data_idx[:split_index]]
         self.X_test = X[data_idx[split_index:]]
         self.test_df = df.iloc[data_idx[split_index:], :]
+        # ***********************
+        # train test split ended
         
+        # fill y_train and y_test data in the variables
         for target in Config.CLASS_COLS:
             self.y_train[target], self.y_test[target] = y[target][data_idx[:split_index]], y[target][data_idx[split_index:]]
             
         self.embeddings = X # df[Config.TICKET_SUMMARY] + ' ' + df[Config.INTERACTION_CONTENT]
 
 
+    # getters
     def get_type(self):
         return  self.y
     def get_X_train(self):

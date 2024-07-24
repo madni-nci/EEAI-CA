@@ -4,6 +4,9 @@ from Config import *
 
 
 def get_input_data()->pd.DataFrame:
+    """
+    Load the input data from the csv files
+    """
     df1 = pd.read_csv("data//AppGallery.csv", skipinitialspace=True)
     
     df1.rename(columns=Config.TARGET_COLS_NAME, inplace=True)
@@ -12,13 +15,15 @@ def get_input_data()->pd.DataFrame:
     df = pd.concat([df1, df2])
     df[Config.INTERACTION_CONTENT] = df[Config.INTERACTION_CONTENT].values.astype('U')
     df[Config.TICKET_SUMMARY] = df[Config.TICKET_SUMMARY].values.astype('U')
-    # df["y"] = df[Config.CLASS_COL]
-    for y in Config.CLASS_COLS:
-        df = df.loc[(df[y] != '') & (~df[y].isna()),]
-    # df = df.loc[(df["y"] != '') & (~df["y"].isna()),]
+    
+    # drop rows with missing values in the target columns
+    df.dropna(subset=Config.CLASS_COLS, inplace=True, how='any')
     return df
 
 def de_duplication(data: pd.DataFrame):
+    """
+    Remove duplicate interactions in the data
+    """
     data["ic_deduplicated"] = ""
 
     cu_template = {
@@ -113,6 +118,9 @@ def de_duplication(data: pd.DataFrame):
     return data
 
 def noise_remover(df: pd.DataFrame):
+    """
+    Remove common and meaningless words and phrases in the data
+    """
     noise = "(sv\s*:)|(wg\s*:)|(ynt\s*:)|(fw(d)?\s*:)|(r\s*:)|(re\s*:)|(\[|\])|(aspiegel support issue submit)|(null)|(nan)|((bonus place my )?support.pt 自动回复:)"
     df[Config.TICKET_SUMMARY] = df[Config.TICKET_SUMMARY].str.lower().replace(noise, " ", regex=True).replace(r'\s+', ' ', regex=True).str.strip()
     df[Config.INTERACTION_CONTENT] = df[Config.INTERACTION_CONTENT].str.lower()
