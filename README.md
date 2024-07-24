@@ -9,17 +9,10 @@ EEAI-CA for Madni Ali Hussain (23158859) and Muhammad Hassan Shakeel (23215992)
 3. [Usage](#usage)
 4. [Files](#files)
 5. [Configuration](#configuration)
-6. [Preprocessing](#preprocessing)
-7. [Main Execution](#main-execution)
-8. [Embeddings](#embeddings)
-9. [Output](#output)
-10. [Contributing](#contributing)
-11. [License](#license)
-12. [Contact](#contact)
 
 ## Introduction
 
-This project is designed to [provide a brief description of the project's purpose and functionality]. The project consists of various scripts for preprocessing data, generating embeddings, and the main execution.
+The project consists of various scripts for preprocessing data, generating embeddings, and the main execution.
 
 ## Installation
 
