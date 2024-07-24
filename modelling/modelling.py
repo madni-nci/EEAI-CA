@@ -3,6 +3,12 @@ from model.randomforest import RandomForest
 
 
 def model_predict(data, df):
+    """
+    Perform the modelling
+    :param data: Data: data object
+    :param df: pd.DataFrame: input data
+    :return accuracy: double: accuracy of the model
+    """
     results = []
     model = RandomForest("RandomForest", data)
     model.train(data)

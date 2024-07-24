@@ -19,6 +19,9 @@ pd.set_option('display.max_colwidth', 200)
 
 
 class RandomForest(BaseModel):
+    """
+    Random Forest model
+    """
     def __init__(self,
                  model_name: str, data) -> None:
         super(RandomForest, self).__init__()
@@ -30,6 +33,11 @@ class RandomForest(BaseModel):
         self.data_transform()
 
     def train(self, data) -> None:
+        """
+        Train the model
+        :param data: Data: data object
+        :return: None
+        """
         print('training started')
         # train the classifier for each target variable
         for i in range(len(Config.CLASS_COLS)):
@@ -42,6 +50,11 @@ class RandomForest(BaseModel):
         print('training finished')
 
     def predict(self, X_test: pd.Series):
+        """
+        Predict the model
+        :param X_test: pd.Series: test data
+        :return: None
+        """
         print('prediction started')
 
         # predict the classifier for each target variables
@@ -63,6 +76,11 @@ class RandomForest(BaseModel):
         print('prediction ended')
     
     def calculateAccuracy(self, row: pd.Series) -> double:
+        """
+        Calculate the accuracy
+        :param row: pd.Series: row of the dataframe
+        :return: double: accuracy
+        """
         correct_pred = 0
 
         # calculate the accuracy for each row
@@ -77,6 +95,11 @@ class RandomForest(BaseModel):
         return correct_pred / len(Config.CLASS_COLS) * 100
 
     def print_results(self, data):
+        """
+        Print the results
+        :param data: Data: data object
+        :return: double: total accuracy
+        """
         results = {f'Type {i+2}':[] for i in range(len(Config.CLASS_COLS))}
 
         # compare prediction and actual y_test, then store the boolean in results variable
@@ -103,6 +126,10 @@ class RandomForest(BaseModel):
         return total_accuracy
 
     def data_transform(self) -> None:
+        """
+        Transform the data
+        :return: None
+        """
         # Transform the target variables to numerical values
         from sklearn.preprocessing import LabelEncoder
         le = LabelEncoder()

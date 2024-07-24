@@ -6,6 +6,7 @@ from Config import *
 def get_input_data()->pd.DataFrame:
     """
     Load the input data from the csv files
+    Returns: DataFrame
     """
     df1 = pd.read_csv("data//AppGallery.csv", skipinitialspace=True)
     
@@ -23,6 +24,7 @@ def get_input_data()->pd.DataFrame:
 def de_duplication(data: pd.DataFrame):
     """
     Remove duplicate interactions in the data
+    Returns: DataFrame
     """
     data["ic_deduplicated"] = ""
 
@@ -120,6 +122,7 @@ def de_duplication(data: pd.DataFrame):
 def noise_remover(df: pd.DataFrame):
     """
     Remove common and meaningless words and phrases in the data
+    Returns: DataFrame
     """
     noise = "(sv\s*:)|(wg\s*:)|(ynt\s*:)|(fw(d)?\s*:)|(r\s*:)|(re\s*:)|(\[|\])|(aspiegel support issue submit)|(null)|(nan)|((bonus place my )?support.pt 自动回复:)"
     df[Config.TICKET_SUMMARY] = df[Config.TICKET_SUMMARY].str.lower().replace(noise, " ", regex=True).replace(r'\s+', ' ', regex=True).str.strip()

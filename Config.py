@@ -1,6 +1,9 @@
 # When you add a new target variable, add it to the TYPE_COLS and CLASS_COLS lists
 # Do not make any change in the model files
 class Config:
+    """
+    Configuration class to store all the constants
+    """
     # Input Columns
     TICKET_SUMMARY = 'Ticket Summary'
     INTERACTION_CONTENT = 'Interaction content'

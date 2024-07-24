@@ -9,11 +9,20 @@ np.random.seed(seed)
 
 
 def load_data():
+    """
+    Load the input data
+    :return df: pd.DataFrame: input data
+    """
     #load the input data
     df = get_input_data()
     return  df
 
 def preprocess_data(df):
+    """
+    Preprocess the input data
+    :param df: pd.DataFrame: input data
+    :return df: pd.DataFrame: preprocessed data
+    """
     # De-duplicate input data
     df =  de_duplication(df)
     # remove noise in input data
@@ -23,13 +32,30 @@ def preprocess_data(df):
     return df
 
 def get_embeddings(df:pd.DataFrame):
+    """
+    Get the embeddings for the input data
+    :param df: pd.DataFrame: input data
+    :return X: np.ndarray: embeddings
+    """
     X = get_tfidf_embd(df)  # get tf-idf embeddings
     return X, df
 
 def get_data_object(X: np.ndarray, df: pd.DataFrame):
+    """
+    Get the data object
+    :param X: np.ndarray: embeddings
+    :param df: pd.DataFrame: input data
+    :return data: Data: data object
+    """
     return Data(X, df)
 
 def perform_modelling(data: Data, df: pd.DataFrame):
+    """
+    Perform the modelling
+    :param data: Data: data object
+    :param df: pd.DataFrame: input data
+    :return accuracy: double: accuracy of the model
+    """
     return model_predict(data, df)
 
 if __name__ == '__main__':

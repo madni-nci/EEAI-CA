@@ -8,6 +8,9 @@ random.seed(seed)
 np.random.seed(seed)
 
 class Data():
+    """
+    Data class to store the input data
+    """
     def __init__(self,
                  X: np.ndarray,
                  df: pd.DataFrame) -> None:
